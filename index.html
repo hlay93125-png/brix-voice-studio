@@ -6,438 +6,395 @@
 <title>BRIX AI VOICE STUDIO</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Myanmar:wght@400;500;600;700&display=swap');
-
 *{box-sizing:border-box}
-
 body{
  margin:0;
- background:#080b12;
+ background:#080e1b;
  color:#fff;
- font-family:Inter,'Noto Sans Myanmar',sans-serif;
+ font-family:Arial,sans-serif;
 }
-
-.container{
- max-width:950px;
- margin:auto;
- padding:20px;
-}
-
 header{
- display:flex;
- align-items:center;
- justify-content:space-between;
- padding:18px 0;
- border-bottom:1px solid #292b32;
+ padding:24px 16px;
+ text-align:center;
+ background:linear-gradient(135deg,#101d35,#080e1b);
+ border-bottom:1px solid #b99143;
 }
-
 .logo{
- color:#d9b65c;
- font-size:21px;
- font-weight:800;
- letter-spacing:3px;
+ font-size:25px;
+ font-weight:bold;
+ letter-spacing:2px;
+ color:#e8c16b;
 }
-
+.sub{color:#9ba9c1;font-size:12px;margin-top:8px}
 .badge{
- background:#18241f;
- color:#7de0a5;
- padding:7px 13px;
+ display:inline-block;
+ margin-top:12px;
+ padding:6px 14px;
+ border:1px solid #d3ac55;
  border-radius:20px;
+ color:#e8c16b;
  font-size:11px;
 }
-
-.hero{
- padding:40px 0 25px;
+.container{
+ max-width:850px;
+ margin:auto;
+ padding:18px;
 }
-
-.hero h1{
- font-size:32px;
- line-height:1.4;
-}
-
-.gold{color:#d9b65c}
-
-.hero p{
- color:#999eaa;
- line-height:1.8;
-}
-
 .card{
- background:#111722;
- border:1px solid #303440;
- border-radius:16px;
- padding:22px;
- margin-bottom:18px;
+ background:#111c30;
+ border:1px solid #253653;
+ border-radius:15px;
+ padding:18px;
+ margin-bottom:16px;
 }
-
-h3{
- font-size:16px;
- margin-top:0;
- color:#e3c16c;
+h2{font-size:17px;color:#e8c16b;margin-top:0}
+label{
+ display:block;
+ color:#b8c5d9;
+ font-size:13px;
+ margin:14px 0 7px;
 }
-
-.upload{
- border:2px dashed #55505a;
- border-radius:12px;
- padding:35px 15px;
- text-align:center;
- cursor:pointer;
+input,select{
+ width:100%;
+ padding:13px;
+ border-radius:9px;
+ border:1px solid #344968;
+ background:#091426;
+ color:white;
+ font-size:14px;
 }
-
-.upload:hover{
- border-color:#d9b65c;
-}
-
-.upload-icon{font-size:35px}
-
-button,select,input{
- font-family:inherit;
-}
-
 button{
- background:#d9b65c;
- color:#111;
  border:0;
  border-radius:9px;
- padding:12px 18px;
- font-weight:700;
+ padding:13px;
+ font-size:14px;
+ font-weight:bold;
  cursor:pointer;
 }
-
+.primary{
+ background:linear-gradient(135deg,#e8c16b,#a77a28);
+ color:#111;
+ width:100%;
+ margin-top:12px;
+}
+.secondary{
+ background:#1d3150;
+ color:white;
+ border:1px solid #3c5274;
+}
 button:disabled{
  opacity:.4;
  cursor:not-allowed;
 }
-
-select,input{
- background:#090e17;
- color:#fff;
- border:1px solid #414654;
- border-radius:8px;
- padding:12px;
- width:100%;
-}
-
-.row{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:15px;
-}
-
-label{
- display:block;
- color:#aaa;
- font-size:13px;
- margin-bottom:8px;
-}
-
-.info{
- color:#9299a6;
- font-size:12px;
- line-height:1.8;
-}
-
 .stats{
  display:grid;
  grid-template-columns:repeat(3,1fr);
- gap:10px;
- text-align:center;
+ gap:9px;
 }
-
 .stat{
- background:#0a101b;
- padding:17px 5px;
+ background:#091426;
+ padding:13px 5px;
+ text-align:center;
  border-radius:10px;
 }
-
 .stat strong{
  display:block;
- color:#e2c16b;
- font-size:24px;
+ font-size:21px;
+ color:#e8c16b;
 }
-
-.stat span{
- color:#999;
- font-size:11px;
+.stat span{font-size:11px;color:#9ba9c1}
+.subtitle-item{
+ padding:12px;
+ border-bottom:1px solid #283650;
+ font-size:13px;
+ line-height:1.7;
 }
-
-.cue{
- padding:15px;
- background:#0a101a;
- border:1px solid #303744;
- border-radius:10px;
+.time{color:#e8c16b;font-size:11px}
+.status{
+ color:#8fd9a6;
+ font-size:12px;
  margin-top:10px;
 }
-
-.cue small{color:#d9b65c}
-
-.cue p{
- line-height:1.8;
- font-size:14px;
-}
-
-.actions{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:12px;
-}
-
-.actions button{
- width:100%;
-}
-
-.secondary{
- background:#242d3b;
- color:white;
-}
-
-.notice{
- background:#282316;
- border:1px solid #76602e;
- color:#e6c978;
- border-radius:10px;
- padding:14px;
+.note{
+ color:#9ba9c1;
  font-size:12px;
- line-height:1.8;
+ line-height:1.7;
 }
-
 footer{
  text-align:center;
- color:#666;
+ color:#687b99;
+ padding:25px;
  font-size:11px;
- padding:30px 0;
-}
-
-@media(max-width:600px){
- .container{padding:15px}
- .hero h1{font-size:25px}
- .row{grid-template-columns:1fr}
- .card{padding:16px}
 }
 </style>
 </head>
 
 <body>
-<div class="container">
 
 <header>
  <div class="logo">BRIX AI</div>
- <div class="badge">● FREE WORKSPACE</div>
+ <div style="font-size:13px;letter-spacing:3px">
+ VOICE STUDIO
+ </div>
+ <div class="sub">AI Burmese Voice & Subtitle Studio</div>
+ <div class="badge">FREE WORKSPACE</div>
 </header>
 
-<section class="hero">
- <h1>Give Your Story<br>
- <span class="gold">A Natural Voice.</span></h1>
- <p>
- မြန်မာ AI Voice Over Studio<br>
- SRT Subtitle မှ MP3 အသံဖိုင်အဖြစ် ပြောင်းလဲရန်။
- </p>
-</section>
+<div class="container">
 
-<div class="card">
- <h3>01 — SUBTITLE SOURCE</h3>
+ <div class="card">
+  <h2>🎬 Upload Subtitle File</h2>
 
- <label class="upload" for="srtFile">
-  <div class="upload-icon">📂</div>
-  <p>Upload your SRT file</p>
-  <small class="info">မြန်မာစာ SRT ဖိုင်ကို ရွေးချယ်ပါ</small>
-  <br><br>
-  <button type="button">Choose SRT File</button>
- </label>
+  <label>SRT ဖိုင်ရွေးပါ</label>
+  <input type="file" id="srtFile" accept=".srt">
 
- <input type="file" id="srtFile"
- accept=".srt" hidden>
-
- <p id="fileName" class="info">No file selected</p>
-</div>
-
-<div class="card">
- <h3>02 — VOICE SELECTION</h3>
-
- <div class="row">
-  <div>
-   <label>Voice Gender</label>
-   <select id="gender">
-    <option value="male">🇲🇲 Burmese Male Voice</option>
-    <option value="female">🇲🇲 Burmese Female Voice</option>
-   </select>
-  </div>
-
-  <div>
-   <label>Voice Engine</label>
-   <select id="engine">
-    <option>AI Voice (Provider Required)</option>
-    <option>Custom Voice Clone (Coming Soon)</option>
-   </select>
+  <div class="status" id="uploadStatus">
+   SRT ဖိုင်တင်ရန် အသင့်ဖြစ်ပါပြီ။
   </div>
  </div>
 
- <br>
+ <div class="card">
+  <h2>🎙️ Voice Settings</h2>
 
- <div class="notice">
-  🎙️ မြန်မာအသံထုတ်လုပ်ရန် TTS Provider ချိတ်ဆက်ရန် လိုအပ်ပါသည်။
-  ကိုယ်ပိုင် Voice Clone ကိုလည်း နောက်ပိုင်းတွင် ထည့်သွင်းနိုင်ပါသည်။
+  <label>Voice Gender</label>
+  <select id="gender">
+   <option value="male">Male Voice - အမျိုးသား</option>
+   <option value="female">Female Voice - အမျိုးသမီး</option>
+  </select>
+
+  <label>Voice Engine</label>
+  <select id="engine">
+   <option value="standard">Burmese Standard Voice</option>
+   <option value="clone">My Custom Voice (Future Feature)</option>
+  </select>
+
+  <label>Speaking Speed</label>
+  <select id="speed">
+   <option value="0.85">Slow</option>
+   <option value="1" selected>Normal</option>
+   <option value="1.15">Fast</option>
+  </select>
  </div>
-</div>
 
-<div class="card">
- <h3>03 — SUBTITLE ANALYSIS</h3>
+ <div class="card">
+  <h2>📊 Subtitle Information</h2>
 
- <div class="stats">
-  <div class="stat">
-   <strong id="total">0</strong>
-   <span>TOTAL CUES</span>
+  <div class="stats">
+   <div class="stat">
+    <strong id="total">0</strong>
+    <span>Total Lines</span>
+   </div>
+
+   <div class="stat">
+    <strong id="warnings">0</strong>
+    <span>Warnings</span>
+   </div>
+
+   <div class="stat">
+    <strong id="duration">00:00</strong>
+    <span>End Time</span>
+   </div>
   </div>
+ </div>
 
-  <div class="stat">
-   <strong id="warnings">0</strong>
-   <span>WARNINGS</span>
+ <div class="card">
+  <h2>📝 Subtitle Preview</h2>
+
+  <input
+   type="text"
+   id="search"
+   placeholder="Subtitle စာသားရှာရန်..."
+  >
+
+  <div id="subtitleList" style="margin-top:12px">
+   <p class="note">SRT ဖိုင်တင်ပြီးပါက စာသားများ ဒီနေရာမှာ ပေါ်လာပါမယ်။</p>
   </div>
-
-  <div class="stat">
-   <strong id="duration">00:00</strong>
-   <span>END TIME</span>
-  </div>
  </div>
 
- <br>
+ <div class="card">
+  <h2>🎧 Audio Studio</h2>
 
- <input id="search" placeholder="Search subtitle text...">
+  <button class="primary" disabled>
+   Generate Voice
+  </button>
 
- <div id="cueList">
-  <p class="info">SRT ဖိုင်တင်ပြီးနောက် Subtitle များ ပေါ်လာပါမည်။</p>
+  <button class="primary" disabled>
+   Preview Audio
+  </button>
+
+  <button class="primary" disabled>
+   Merge All Audio to MP3
+  </button>
+
+  <button class="primary" disabled>
+   Download MP3
+  </button>
+
+  <p class="note">
+   Audio generation နှင့် MP3 download လုပ်ဆောင်ချက်များကို
+   နောက်တစ်ဆင့်တွင် TTS Backend ချိတ်ဆက်ပြီး အသုံးပြုနိုင်ပါမည်။
+  </p>
  </div>
-</div>
 
-<div class="card">
- <h3>04 — AUDIO EXPORT</h3>
-
- <div class="actions">
-  <button disabled>▶ Generate Voice</button>
-  <button disabled class="secondary">🎧 Preview Audio</button>
-  <button disabled class="secondary">🎵 Merge MP3</button>
-  <button disabled>📥 Download MP3</button>
- </div>
-
- <br>
-
- <div class="notice">
-  Audio Generation နှင့် MP3 Download ကို TTS Backend ချိတ်ဆက်ပြီးမှ အသုံးပြုနိုင်ပါမည်။
- </div>
 </div>
 
 <footer>
  BRIX AI VOICE STUDIO © 2026
- <br>Designed for Burmese Creators
 </footer>
 
-</div>
-
 <script>
-let cues=[];
+let subtitles = [];
 
-const fileInput=document.getElementById('srtFile');
+function toSeconds(time){
+ const parts = time.replace(",",".").split(":");
+ return Number(parts[0])*3600+
+        Number(parts[1])*60+
+        Number(parts[2]);
+}
 
-fileInput.addEventListener('change',async e=>{
- const file=e.target.files[0];
+function formatTime(seconds){
+ const h=Math.floor(seconds/3600);
+ const m=Math.floor((seconds%3600)/60);
+ const s=Math.floor(seconds%60);
+
+ return h>0
+  ? String(h).padStart(2,"0")+":"+
+    String(m).padStart(2,"0")+":"+
+    String(s).padStart(2,"0")
+  : String(m).padStart(2,"0")+":"+
+    String(s).padStart(2,"0");
+}
+
+function escapeHTML(text){
+ return text.replace(/[&<>"']/g,function(c){
+  return {
+   "&":"&amp;",
+   "<":"&lt;",
+   ">":"&gt;",
+   '"':"&quot;",
+   "'":"&#039;"
+  }[c];
+ });
+}
+
+document.getElementById("srtFile")
+.addEventListener("change",function(event){
+
+ const file=event.target.files[0];
  if(!file)return;
 
- document.getElementById('fileName').textContent=file.name;
+ const reader=new FileReader();
 
- const text=await file.text();
- parseSRT(text);
+ reader.onload=function(e){
+
+  const content=e.target.result;
+  const blocks=content.trim().split(/\r?\n\s*\r?\n/);
+
+  subtitles=[];
+  let warnings=0;
+
+  blocks.forEach(block=>{
+
+   const lines=block.split(/\r?\n/);
+
+   const timeLine=lines.find(line=>
+    line.includes("-->")
+   );
+
+   if(!timeLine){
+    warnings++;
+    return;
+   }
+
+   const match=timeLine.match(
+    /(\d{2}:\d{2}:\d{2},\d{3})\s*-->\s*(\d{2}:\d{2}:\d{2},\d{3})/
+   );
+
+   if(!match){
+    warnings++;
+    return;
+   }
+
+   const index=lines.indexOf(timeLine);
+
+   const text=lines.slice(index+1).join("\n").trim();
+
+   if(!text){
+    warnings++;
+    return;
+   }
+
+   subtitles.push({
+    start:match[1],
+    end:match[2],
+    text:text
+   });
+
+  });
+
+  subtitles.sort((a,b)=>
+   toSeconds(a.start)-toSeconds(b.start)
+  );
+
+  document.getElementById("total").textContent=
+   subtitles.length;
+
+  document.getElementById("warnings").textContent=
+   warnings;
+
+  const last=subtitles.length
+   ? subtitles[subtitles.length-1].end
+   : "00:00:00,000";
+
+  document.getElementById("duration").textContent=
+   formatTime(toSeconds(last));
+
+  document.getElementById("uploadStatus").textContent=
+   "ဖိုင်တင်ပြီးပါပြီ - "+file.name;
+
+  renderSubtitles(subtitles);
+ };
+
+ reader.readAsText(file);
 });
 
-function parseTime(t){
- const m=t.trim().replace(',', '.').match(
- /(\d{2}):(\d{2}):(\d{2})\.(\d{3})/
- );
- if(!m)return null;
+function renderSubtitles(items){
 
- return (+m[1]*3600)+(+m[2]*60)+(+m[3])+(+m[4]/1000);
-}
+ const list=document.getElementById("subtitleList");
 
-function formatTime(s){
- if(s===null)return '--:--';
- const h=Math.floor(s/3600);
- const m=Math.floor((s%3600)/60);
- const sec=Math.floor(s%60);
-
- return [h,m,sec].map(v=>String(v).padStart(2,'0')).join(':');
-}
-
-function parseSRT(text){
- const blocks=text.trim().replace(/\r/g,'').split(/\n\s*\n/);
- cues=[];
- let warnings=0;
-
- blocks.forEach(block=>{
-  const lines=block.split('\n');
-  const ti=lines.findIndex(l=>l.includes('-->'));
-
-  if(ti<0){warnings++;return;}
-
-  const times=lines[ti].split('-->');
-  const start=parseTime(times[0]);
-  const end=parseTime(times[1]);
-
-  const subtitle=lines.slice(ti+1).join('\n').trim();
-
-  if(start===null||end===null||end<start||!subtitle){
-   warnings++;
-   return;
-  }
-
-  cues.push({
-   start,end,subtitle
-  });
- });
-
- cues.sort((a,b)=>a.start-b.start);
-
- document.getElementById('total').textContent=cues.length;
- document.getElementById('warnings').textContent=warnings;
-
- const last=cues.length?cues[cues.length-1].end:0;
- document.getElementById('duration').textContent=formatTime(last);
-
- renderCues();
-}
-
-function renderCues(){
- const search=document.getElementById('search').value.toLowerCase();
-
- const filtered=cues.filter(c=>
-  c.subtitle.toLowerCase().includes(search)
- );
-
- const box=document.getElementById('cueList');
-
- if(!filtered.length){
-  box.innerHTML='<p class="info">Subtitle မတွေ့ပါ။</p>';
+ if(!items.length){
+  list.innerHTML="<p class='note'>Subtitle မတွေ့ပါ။</p>";
   return;
  }
 
- box.innerHTML=filtered.map((c,i)=>`
-  <div class="cue">
-   <small>#${i+1} · ${formatTime(c.start)} → ${formatTime(c.end)}</small>
-   <p>${escapeHTML(c.subtitle).replace(/\n/g,'<br>')}</p>
+ list.innerHTML=items.map((item,index)=>`
+
+  <div class="subtitle-item">
+
+   <div class="time">
+    #${index+1} |
+    ${escapeHTML(item.start)} →
+    ${escapeHTML(item.end)}
+   </div>
+
+   <div>${escapeHTML(item.text).replace(/\n/g,"<br>")}</div>
+
   </div>
- `).join('');
+
+ `).join("");
 }
 
-function escapeHTML(str){
- return str.replace(/[&<>"']/g,c=>({
- '&':'&amp;',
- '<':'&lt;',
- '>':'&gt;',
- '"':'&quot;',
- "'":'&#39;'
- }[c]));
-}
+document.getElementById("search")
+.addEventListener("input",function(){
 
-document.getElementById('search')
-.addEventListener('input',renderCues);
+ const keyword=this.value.toLowerCase();
+
+ const filtered=subtitles.filter(item=>
+  item.text.toLowerCase().includes(keyword)
+ );
+
+ renderSubtitles(filtered);
+});
 </script>
 
 </body>
