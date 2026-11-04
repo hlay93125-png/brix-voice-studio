@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BRIX AI VOICE STUDIO</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Myanmar:wght@400;500;600;700&display=swap');
+
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ background:#080b12;
+ color:#fff;
+ font-family:Inter,'Noto Sans Myanmar',sans-serif;
+}
+
+.container{
+ max-width:950px;
+ margin:auto;
+ padding:20px;
+}
+
+header{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:18px 0;
+ border-bottom:1px solid #292b32;
+}
+
+.logo{
+ color:#d9b65c;
+ font-size:21px;
+ font-weight:800;
+ letter-spacing:3px;
+}
+
+.badge{
+ background:#18241f;
+ color:#7de0a5;
+ padding:7px 13px;
+ border-radius:20px;
+ font-size:11px;
+}
+
+.hero{
+ padding:40px 0 25px;
+}
+
+.hero h1{
+ font-size:32px;
+ line-height:1.4;
+}
+
+.gold{color:#d9b65c}
+
+.hero p{
+ color:#999eaa;
+ line-height:1.8;
+}
+
+.card{
+ background:#111722;
+ border:1px solid #303440;
+ border-radius:16px;
+ padding:22px;
+ margin-bottom:18px;
+}
+
+h3{
+ font-size:16px;
+ margin-top:0;
+ color:#e3c16c;
+}
+
+.upload{
+ border:2px dashed #55505a;
+ border-radius:12px;
+ padding:35px 15px;
+ text-align:center;
+ cursor:pointer;
+}
+
+.upload:hover{
+ border-color:#d9b65c;
+}
+
+.upload-icon{font-size:35px}
+
+button,select,input{
+ font-family:inherit;
+}
+
+button{
+ background:#d9b65c;
+ color:#111;
+ border:0;
+ border-radius:9px;
+ padding:12px 18px;
+ font-weight:700;
+ cursor:pointer;
+}
+
+button:disabled{
+ opacity:.4;
+ cursor:not-allowed;
+}
+
+select,input{
+ background:#090e17;
+ color:#fff;
+ border:1px solid #414654;
+ border-radius:8px;
+ padding:12px;
+ width:100%;
+}
+
+.row{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:15px;
+}
+
+label{
+ display:block;
+ color:#aaa;
+ font-size:13px;
+ margin-bottom:8px;
+}
+
+.info{
+ color:#9299a6;
+ font-size:12px;
+ line-height:1.8;
+}
+
+.stats{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:10px;
+ text-align:center;
+}
+
+.stat{
+ background:#0a101b;
+ padding:17px 5px;
+ border-radius:10px;
+}
+
+.stat strong{
+ display:block;
+ color:#e2c16b;
+ font-size:24px;
+}
+
+.stat span{
+ color:#999;
+ font-size:11px;
+}
+
+.cue{
+ padding:15px;
+ background:#0a101a;
+ border:1px solid #303744;
+ border-radius:10px;
+ margin-top:10px;
+}
+
+.cue small{color:#d9b65c}
+
+.cue p{
+ line-height:1.8;
+ font-size:14px;
+}
+
+.actions{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:12px;
+}
+
+.actions button{
+ width:100%;
+}
+
+.secondary{
+ background:#242d3b;
+ color:white;
+}
+
+.notice{
+ background:#282316;
+ border:1px solid #76602e;
+ color:#e6c978;
+ border-radius:10px;
+ padding:14px;
+ font-size:12px;
+ line-height:1.8;
+}
+
+footer{
+ text-align:center;
+ color:#666;
+ font-size:11px;
+ padding:30px 0;
+}
+
+@media(max-width:600px){
+ .container{padding:15px}
+ .hero h1{font-size:25px}
+ .row{grid-template-columns:1fr}
+ .card{padding:16px}
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<header>
+ <div class="logo">BRIX AI</div>
+ <div class="badge">● FREE WORKSPACE</div>
+</header>
+
+<section class="hero">
+ <h1>Give Your Story<br>
+ <span class="gold">A Natural Voice.</span></h1>
+ <p>
+ မြန်မာ AI Voice Over Studio<br>
+ SRT Subtitle မှ MP3 အသံဖိုင်အဖြစ် ပြောင်းလဲရန်။
+ </p>
+</section>
+
+<div class="card">
+ <h3>01 — SUBTITLE SOURCE</h3>
+
+ <label class="upload" for="srtFile">
+  <div class="upload-icon">📂</div>
+  <p>Upload your SRT file</p>
+  <small class="info">မြန်မာစာ SRT ဖိုင်ကို ရွေးချယ်ပါ</small>
+  <br><br>
+  <button type="button">Choose SRT File</button>
+ </label>
+
+ <input type="file" id="srtFile"
+ accept=".srt" hidden>
+
+ <p id="fileName" class="info">No file selected</p>
+</div>
+
+<div class="card">
+ <h3>02 — VOICE SELECTION</h3>
+
+ <div class="row">
+  <div>
+   <label>Voice Gender</label>
+   <select id="gender">
+    <option value="male">🇲🇲 Burmese Male Voice</option>
+    <option value="female">🇲🇲 Burmese Female Voice</option>
+   </select>
+  </div>
+
+  <div>
+   <label>Voice Engine</label>
+   <select id="engine">
+    <option>AI Voice (Provider Required)</option>
+    <option>Custom Voice Clone (Coming Soon)</option>
+   </select>
+  </div>
+ </div>
+
+ <br>
+
+ <div class="notice">
+  🎙️ မြန်မာအသံထုတ်လုပ်ရန် TTS Provider ချိတ်ဆက်ရန် လိုအပ်ပါသည်။
+  ကိုယ်ပိုင် Voice Clone ကိုလည်း နောက်ပိုင်းတွင် ထည့်သွင်းနိုင်ပါသည်။
+ </div>
+</div>
+
+<div class="card">
+ <h3>03 — SUBTITLE ANALYSIS</h3>
+
+ <div class="stats">
+  <div class="stat">
+   <strong id="total">0</strong>
+   <span>TOTAL CUES</span>
+  </div>
+
+  <div class="stat">
+   <strong id="warnings">0</strong>
+   <span>WARNINGS</span>
+  </div>
+
+  <div class="stat">
+   <strong id="duration">00:00</strong>
+   <span>END TIME</span>
+  </div>
+ </div>
+
+ <br>
+
+ <input id="search" placeholder="Search subtitle text...">
+
+ <div id="cueList">
+  <p class="info">SRT ဖိုင်တင်ပြီးနောက် Subtitle များ ပေါ်လာပါမည်။</p>
+ </div>
+</div>
+
+<div class="card">
+ <h3>04 — AUDIO EXPORT</h3>
+
+ <div class="actions">
+  <button disabled>▶ Generate Voice</button>
+  <button disabled class="secondary">🎧 Preview Audio</button>
+  <button disabled class="secondary">🎵 Merge MP3</button>
+  <button disabled>📥 Download MP3</button>
+ </div>
+
+ <br>
+
+ <div class="notice">
+  Audio Generation နှင့် MP3 Download ကို TTS Backend ချိတ်ဆက်ပြီးမှ အသုံးပြုနိုင်ပါမည်။
+ </div>
+</div>
+
+<footer>
+ BRIX AI VOICE STUDIO © 2026
+ <br>Designed for Burmese Creators
+</footer>
+
+</div>
+
+<script>
+let cues=[];
+
+const fileInput=document.getElementById('srtFile');
+
+fileInput.addEventListener('change',async e=>{
+ const file=e.target.files[0];
+ if(!file)return;
+
+ document.getElementById('fileName').textContent=file.name;
+
+ const text=await file.text();
+ parseSRT(text);
+});
+
+function parseTime(t){
+ const m=t.trim().replace(',', '.').match(
+ /(\d{2}):(\d{2}):(\d{2})\.(\d{3})/
+ );
+ if(!m)return null;
+
+ return (+m[1]*3600)+(+m[2]*60)+(+m[3])+(+m[4]/1000);
+}
+
+function formatTime(s){
+ if(s===null)return '--:--';
+ const h=Math.floor(s/3600);
+ const m=Math.floor((s%3600)/60);
+ const sec=Math.floor(s%60);
+
+ return [h,m,sec].map(v=>String(v).padStart(2,'0')).join(':');
+}
+
+function parseSRT(text){
+ const blocks=text.trim().replace(/\r/g,'').split(/\n\s*\n/);
+ cues=[];
+ let warnings=0;
+
+ blocks.forEach(block=>{
+  const lines=block.split('\n');
+  const ti=lines.findIndex(l=>l.includes('-->'));
+
+  if(ti<0){warnings++;return;}
+
+  const times=lines[ti].split('-->');
+  const start=parseTime(times[0]);
+  const end=parseTime(times[1]);
+
+  const subtitle=lines.slice(ti+1).join('\n').trim();
+
+  if(start===null||end===null||end<start||!subtitle){
+   warnings++;
+   return;
+  }
+
+  cues.push({
+   start,end,subtitle
+  });
+ });
+
+ cues.sort((a,b)=>a.start-b.start);
+
+ document.getElementById('total').textContent=cues.length;
+ document.getElementById('warnings').textContent=warnings;
+
+ const last=cues.length?cues[cues.length-1].end:0;
+ document.getElementById('duration').textContent=formatTime(last);
+
+ renderCues();
+}
+
+function renderCues(){
+ const search=document.getElementById('search').value.toLowerCase();
+
+ const filtered=cues.filter(c=>
+  c.subtitle.toLowerCase().includes(search)
+ );
+
+ const box=document.getElementById('cueList');
+
+ if(!filtered.length){
+  box.innerHTML='<p class="info">Subtitle မတွေ့ပါ။</p>';
+  return;
+ }
+
+ box.innerHTML=filtered.map((c,i)=>`
+  <div class="cue">
+   <small>#${i+1} · ${formatTime(c.start)} → ${formatTime(c.end)}</small>
+   <p>${escapeHTML(c.subtitle).replace(/\n/g,'<br>')}</p>
+  </div>
+ `).join('');
+}
+
+function escapeHTML(str){
+ return str.replace(/[&<>"']/g,c=>({
+ '&':'&amp;',
+ '<':'&lt;',
+ '>':'&gt;',
+ '"':'&quot;',
+ "'":'&#39;'
+ }[c]));
+}
+
+document.getElementById('search')
+.addEventListener('input',renderCues);
+</script>
+
+</body>
+</html>
