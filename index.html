@@ -396,6 +396,183 @@ document.getElementById("search")
  renderSubtitles(filtered);
 });
 </script>
+<!-- BRIX AI VOICE API CONNECTION -->
+<div id="voiceApiStatus" style="
+  margin:15px;
+  padding:12px;
+  border-radius:10px;
+  background:#172033;
+  color:#ffffff;
+  font-size:14px;">
+  BRIX AI Voice API: Ready
+</div>
 
+<audio id="brixAudioPlayer" controls
+  style="width:100%;margin:10px 0;display:none;">
+</audio>
+
+<script>
+(function () {
+
+  const API_URL =
+    "https://k1ngtai-burmese-tts.hf.space";
+
+  const status = document.getElementById("voiceApiStatus");
+  const player = document.getElementById("brixAudioPlayer");
+
+  function showStatus(message) {
+    status.textContent = message;
+  }
+
+  function getVoice() {
+    const gender = document.getElementById("gender");
+    const selected = gender
+      ? gender.options[gender.selectedIndex].text.toLowerCase()
+      : "";
+
+    if (
+      selected.includes("female") ||
+      selected.includes("မိန်းမ") ||
+      selected.includes("nilar")
+    ) {
+      return "မြန်မာ (မိန်းမ) - Nilar";
+    }
+
+    return "မြန်မာ (ကျား) - Thiha";
+  }
+
+  function findAudioURL(data) {
+    if (typeof data === "string") {
+      if (data.startsWith("http")) return data;
+    }
+
+    if (Array.isArray(data)) {
+      for (const item of data) {
+        const found = findAudioURL(item);
+        if (found) return found;
+      }
+    }
+
+    if (data && typeof data === "object") {
+      if (data.url) return data.url;
+      if (data.path && data.path.startsWith("http")) {
+        return data.path;
+      }
+
+      for (const key in data) {
+        const found = findAudioURL(data[key]);
+        if (found) return found;
+      }
+    }
+
+    return null;
+  }
+
+  async function generateTestVoice() {
+    if (!window.subtitles || subtitles.length === 0) {
+      showStatus("SRT ဖိုင် အရင်တင်ပေးပါ။");
+      return;
+    }
+
+    const text = subtitles[0].text;
+
+    if (!text) {
+      showStatus("စာသားမတွေ့ပါ။");
+      return;
+    }
+
+    try {
+      showStatus("အသံထုတ်နေပါတယ်... ခဏစောင့်ပါ။");
+
+      const response = await fetch(
+        API_URL + "/gradio_api/call/v2/text_to_speech",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            text: text,
+            voice_label: getVoice()
+          })
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("API request failed: " + response.status);
+      }
+
+      const result = await response.json();
+      const eventId = result.event_id;
+
+      if (!eventId) {
+        throw new Error("Event ID မရရှိပါ။");
+      }
+
+      const audioResponse = await fetch(
+        API_URL +
+        "/gradio_api/call/text_to_speech/" +
+        eventId
+      );
+
+      if (!audioResponse.ok) {
+        throw new Error("Audio response failed.");
+      }
+
+      const stream = await audioResponse.text();
+
+      const dataLines = stream
+        .split("\n")
+        .filter(line => line.startsWith("data:"));
+
+      let audioURL = null;
+
+      for (const line of dataLines) {
+        try {
+          const data = JSON.parse(
+            line.replace(/^data:\s*/, "")
+          );
+
+          audioURL = findAudioURL(data) || audioURL;
+        } catch (e) {}
+      }
+
+      if (!audioURL) {
+        throw new Error("အသံဖိုင် Link မရရှိပါ။");
+      }
+
+      player.src = audioURL;
+      player.style.display = "block";
+
+      await player.play();
+
+      showStatus("အသံထုတ်ခြင်း အောင်မြင်ပါပြီ။ Thiha / Nilar");
+
+    } catch (error) {
+      console.error(error);
+      showStatus("Error: " + error.message);
+    }
+  }
+
+  const buttons = Array.from(
+    document.querySelectorAll("button")
+  );
+
+  const generateButton = buttons.find(button =>
+    button.textContent.toLowerCase().includes("generate voice")
+  );
+
+  if (generateButton) {
+    generateButton.disabled = false;
+    generateButton.addEventListener(
+      "click",
+      generateTestVoice
+    );
+  } else {
+    showStatus("Generate Voice ခလုတ်ကို ရှာမတွေ့ပါ။");
+  }
+
+})();
+</script>
 </body>
 </html>
