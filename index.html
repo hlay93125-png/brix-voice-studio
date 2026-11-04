@@ -469,7 +469,7 @@ document.getElementById("search")
   }
 
   async function generateTestVoice() {
-    if (!window.subtitles || subtitles.length === 0) {
+    if (subtitles.length === 0) {
       showStatus("SRT ဖိုင် အရင်တင်ပေးပါ။");
       return;
     }
