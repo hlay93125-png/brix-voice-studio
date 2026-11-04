@@ -468,21 +468,29 @@ document.getElementById("search")
     return null;
   }
 
-  async function generateTestVoice() {
-    if (subtitles.length === 0) {
-      showStatus("SRT ဖိုင် အရင်တင်ပေးပါ။");
-      return;
-    }
+  let generatedAudios = [];
 
-    const text = subtitles[0].text;
+async function generateTestVoice() {
 
-    if (!text) {
-      showStatus("စာသားမတွေ့ပါ။");
-      return;
-    }
+  if (subtitles.length === 0) {
+    showStatus("SRT ဖိုင် အရင်တင်ပေးပါ။");
+    return;
+  }
 
-    try {
-      showStatus("အသံထုတ်နေပါတယ်... ခဏစောင့်ပါ။");
+  generatedAudios = [];
+
+  const voice = getVoice();
+
+  try {
+
+    for (let i = 0; i < subtitles.length; i++) {
+
+      const item = subtitles[i];
+
+      showStatus(
+        "အသံထုတ်နေပါတယ်... " +
+        (i + 1) + " / " + subtitles.length
+      );
 
       const response = await fetch(
         API_URL + "/gradio_api/call/v2/text_to_speech",
@@ -492,31 +500,30 @@ document.getElementById("search")
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            text: text,
-            voice_label: getVoice()
+            text: item.text,
+            voice_label: voice
           })
         }
       );
 
       if (!response.ok) {
-        throw new Error("API request failed: " + response.status);
+        throw new Error("API Error: " + response.status);
       }
 
       const result = await response.json();
-      const eventId = result.event_id;
 
-      if (!eventId) {
-        throw new Error("Event ID မရရှိပါ။");
+      if (!result.event_id) {
+        throw new Error("Event ID မရပါ။");
       }
 
       const audioResponse = await fetch(
         API_URL +
         "/gradio_api/call/text_to_speech/" +
-        eventId
+        result.event_id
       );
 
       if (!audioResponse.ok) {
-        throw new Error("Audio response failed.");
+        throw new Error("Audio Error");
       }
 
       const stream = await audioResponse.text();
@@ -534,25 +541,39 @@ document.getElementById("search")
           );
 
           audioURL = findAudioURL(data) || audioURL;
+
         } catch (e) {}
       }
 
       if (!audioURL) {
-        throw new Error("အသံဖိုင် Link မရရှိပါ။");
+        throw new Error(
+          "စာကြောင်း " + (i + 1) + " အသံ Link မရပါ။"
+        );
       }
 
-      player.src = audioURL;
-      player.style.display = "block";
+      generatedAudios.push({
+        start: item.start,
+        end: item.end,
+        text: item.text,
+        url: audioURL
+      });
 
-      await player.play();
-
-      showStatus("အသံထုတ်ခြင်း အောင်မြင်ပါပြီ။ Thiha / Nilar");
-
-    } catch (error) {
-      console.error(error);
-      showStatus("Error: " + error.message);
     }
+
+    showStatus(
+      "အောင်မြင်ပါပြီ။ အသံ " +
+      generatedAudios.length +
+      " ခု ထုတ်ပြီးပါပြီ။"
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    showStatus("Error: " + error.message);
+
   }
+}
 
   const buttons = Array.from(
     document.querySelectorAll("button")
