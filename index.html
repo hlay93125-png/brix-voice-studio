@@ -574,7 +574,155 @@ async function generateTestVoice() {
 
   }
 }
+let mergedMP3Blob = null;
 
+async function mergeAllAudioToMP3() {
+
+  if (!generatedAudios.length) {
+    showStatus("အရင်ဆုံး Generate Voice လုပ်ပါ။");
+    return;
+  }
+
+  try {
+
+    showStatus("အသံဖိုင်များကို ပေါင်းနေပါတယ်...");
+
+    const audioContext = new AudioContext({
+      sampleRate: 44100
+    });
+
+    const decodedAudios = [];
+
+    for (let i = 0; i < generatedAudios.length; i++) {
+
+      showStatus(
+        "အသံဖိုင် ဖတ်နေပါတယ်... " +
+        (i + 1) + " / " + generatedAudios.length
+      );
+
+      const response = await fetch(generatedAudios[i].url);
+
+      if (!response.ok) {
+        throw new Error("Audio ဖိုင် ဖတ်မရပါ။");
+      }
+
+      const arrayBuffer = await response.arrayBuffer();
+
+      const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+
+      decodedAudios.push(audioBuffer);
+    }
+
+    const sampleRate = 44100;
+
+    let totalLength = 0;
+
+    const positions = decodedAudios.map((audio, index) => {
+
+      const start = Math.round(
+        toSeconds(generatedAudios[index].start) * sampleRate
+      );
+
+      const length = Math.round(
+        audio.duration * sampleRate
+      );
+
+      totalLength = Math.max(totalLength, start + length);
+
+      return start;
+    });
+
+    const finalAudio = new Float32Array(totalLength);
+
+    decodedAudios.forEach((audio, index) => {
+
+      const start = positions[index];
+
+      const left = audio.getChannelData(0);
+
+      const right = audio.numberOfChannels > 1
+        ? audio.getChannelData(1)
+        : left;
+
+      const length = Math.min(
+        Math.round(audio.duration * sampleRate),
+        totalLength - start
+      );
+
+      for (let i = 0; i < length; i++) {
+
+        const value = (left[i] + right[i]) / 2;
+
+        finalAudio[start + i] += value;
+      }
+    });
+
+    const encoder = new lamejs.Mp3Encoder(
+      1,
+      sampleRate,
+      128
+    );
+
+    const mp3Parts = [];
+    const blockSize = 1152;
+
+    for (let i = 0; i < finalAudio.length; i += blockSize) {
+
+      const chunk = finalAudio.subarray(
+        i,
+        Math.min(i + blockSize, finalAudio.length)
+      );
+
+      const pcm = new Int16Array(chunk.length);
+
+      for (let j = 0; j < chunk.length; j++) {
+
+        const value = Math.max(-1, Math.min(1, chunk[j]));
+
+        pcm[j] = value < 0
+          ? value * 32768
+          : value * 32767;
+      }
+
+      const encoded = encoder.encodeBuffer(pcm);
+
+      if (encoded.length) {
+        mp3Parts.push(new Uint8Array(encoded));
+      }
+    }
+
+    const finalChunk = encoder.flush();
+
+    if (finalChunk.length) {
+      mp3Parts.push(new Uint8Array(finalChunk));
+    }
+
+    mergedMP3Blob = new Blob(
+      mp3Parts,
+      { type: "audio/mpeg" }
+    );
+
+    const downloadButton = Array.from(
+      document.querySelectorAll("button")
+    ).find(button =>
+      button.textContent.toLowerCase().includes("download mp3")
+    );
+
+    if (downloadButton) {
+      downloadButton.disabled = false;
+    }
+
+    showStatus("MP3 ပေါင်းခြင်း အောင်မြင်ပါပြီ။");
+
+    await audioContext.close();
+
+  } catch (error) {
+
+    console.error(error);
+
+    showStatus("MP3 Error: " + error.message);
+  }
+}
   const buttons = Array.from(
     document.querySelectorAll("button")
   );
@@ -592,7 +740,49 @@ async function generateTestVoice() {
   } else {
     showStatus("Generate Voice ခလုတ်ကို ရှာမတွေ့ပါ။");
   }
+// MERGE BUTTON
+const mergeButton = Array.from(
+  document.querySelectorAll("button")
+).find(button =>
+  button.textContent.toLowerCase().includes("merge all audio")
+);
 
+if (mergeButton) {
+  mergeButton.disabled = false;
+  mergeButton.addEventListener(
+    "click",
+    mergeAllAudioToMP3
+  );
+}
+
+// DOWNLOAD BUTTON
+const downloadButton = Array.from(
+  document.querySelectorAll("button")
+).find(button =>
+  button.textContent.toLowerCase().includes("download mp3")
+);
+
+if (downloadButton) {
+  downloadButton.addEventListener("click", function() {
+
+    if (!mergedMP3Blob) {
+      showStatus("MP3 အရင်ပေါင်းပေးပါ။");
+      return;
+    }
+
+    const url = URL.createObjectURL(mergedMP3Blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "BRIX_AI_VOICE.mp3";
+
+    link.click();
+
+    URL.revokeObjectURL(url);
+
+    showStatus("MP3 Download အောင်မြင်ပါပြီ။");
+  });
+}
 })();
 </script>
 </body>
